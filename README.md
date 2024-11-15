@@ -1,1 +1,1 @@
-# fimmys-house
+# Start Fimmy's house game project
