@@ -7,6 +7,11 @@ public class PlatformManager : MonoBehaviour
     public int numberOfPlatforms = 5;
     public float platformLength = 30f;
     public Transform player;
+    public GameObject[] obstaclePrefabs;
+    public GameObject collectiblePrefab;
+    public int obstaclesPerPlatform = 2;
+    public int collectiblesPerPlatform = 1;
+
 
     private float spawnZ = 0f;
     private float safeZone = 45f;
@@ -31,10 +36,43 @@ public class PlatformManager : MonoBehaviour
 
     void SpawnPlatform()
     {
-        GameObject go = Instantiate(platformPrefab, Vector3.forward * spawnZ, Quaternion.identity);
-        activePlatforms.Add(go);
+        Vector3 spawnPosition = Vector3.forward * spawnZ;
+        GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
+        activePlatforms.Add(platform);
+
+        // Spawn obstacles
+        for (int i = 0; i < obstaclesPerPlatform; i++)
+        {
+            SpawnObstacle(platform.transform, spawnPosition);
+        }
+
+        // Spawn collectibles
+        for (int i = 0; i < collectiblesPerPlatform; i++)
+        {
+            SpawnCollectible(platform.transform, spawnPosition);
+        }
+
         spawnZ += platformLength;
     }
+
+    void SpawnObstacle(Transform parent, Vector3 platformPos)
+    {
+        int lane = Random.Range(-1, 2); // -1, 0, 1
+        float zOffset = Random.Range(5f, platformLength - 5f);
+        Vector3 position = platformPos + new Vector3(lane * 2f, 0.5f, zOffset);
+        int index = Random.Range(0, obstaclePrefabs.Length);
+        Instantiate(obstaclePrefabs[index], position, Quaternion.identity);
+    }
+
+    void SpawnCollectible(Transform parent, Vector3 platformPos)
+    {
+        int lane = Random.Range(-1, 2); // -1, 0, 1
+        float zOffset = Random.Range(5f, platformLength - 5f);
+        Vector3 position = platformPos + new Vector3(lane * 2f, 1f, zOffset);
+        Instantiate(collectiblePrefab, position, Quaternion.identity);
+    }
+
+
 
     void DeletePlatform()
     {
