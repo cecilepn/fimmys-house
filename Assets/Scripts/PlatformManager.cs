@@ -56,12 +56,14 @@ public class PlatformManager : MonoBehaviour
 
         spawnZ += platformLength;
 
-        // Generate decor at this Z position
+        // Generate decor in front of this platform
         if (decorGenerator != null)
         {
             float middleZ = spawnZ - (platformLength / 2f);
             decorGenerator.GenerateDecorAtZ(middleZ);
         }
+
+
     }
 
     void SpawnObstacle(Transform parent, Vector3 platformPos)
