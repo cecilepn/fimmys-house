@@ -1,0 +1,42 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class EnterHouse : MonoBehaviour
+{
+    public GameObject interactionUI;
+    private bool isPlayerNear = false;
+
+    void Start()
+    {
+        if (interactionUI != null)
+            interactionUI.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
+        {
+            SceneManager.LoadScene("EndlessRunner");
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNear = true;
+            if (interactionUI != null)
+                interactionUI.SetActive(true);
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerNear = false;
+            if (interactionUI != null)
+                interactionUI.SetActive(false);
+        }
+    }
+}

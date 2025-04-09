@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 lookDelta;
     private Vector3 velocity;
     private CharacterController controller;
-    private float xRotation = 0f;
 
     private PlayerInputActions inputActions;
 
