@@ -5,9 +5,11 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public int score = 0;
+    private int score = 0;
     private int hitCount = 0;
-    public int maxHits = 3;
+    public int maxHits = 2;
+
+    public GameObject gameOverUI;
 
     void Awake()
     {
@@ -15,28 +17,39 @@ public class GameManager : MonoBehaviour
         else Destroy(gameObject);
     }
 
-    public void AddScore(int value)
+    public void AddScore(int amount)
     {
-        score += value;
+        score += amount;
         Debug.Log("Score: " + score);
     }
 
     public void HitObstacle()
     {
         hitCount++;
-        score -= 20;
-        Debug.Log("Touché ! (" + hitCount + "/3) Score: " + score);
+        Debug.Log("Obstacle hit! Count: " + hitCount);
 
-        if (hitCount >= maxHits)
+        if (hitCount > maxHits)
         {
-            EndGame();
+            GameOver();
         }
     }
 
-    void EndGame()
+    void GameOver()
     {
-        Debug.Log("💀 Game Over !");
-        // Recharge la scène pour recommencer (ou tu peux afficher un menu)
+        Debug.Log("Game Over!");
+        Time.timeScale = 0f;
+        gameOverUI.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ReturnToMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MainMenu");
     }
 }
