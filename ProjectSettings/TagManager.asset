@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Obstacle
   - Collectible
+  - Ladder
   layers:
   - Default
   - TransparentFX
