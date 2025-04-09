@@ -16,7 +16,7 @@ public class EnterHouse : MonoBehaviour
     {
         if (isPlayerNear && Input.GetKeyDown(KeyCode.E))
         {
-            SceneManager.LoadScene("EndlessRunner");
+            SceneManager.LoadScene("BeforeStartingRunner");
         }
     }
 
