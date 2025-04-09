@@ -6,6 +6,8 @@ public class PlayerMovementRunner : MonoBehaviour
     public float laneDistance = 3f;
     public float jumpForce = 0.5f;
     public float gravity = -40f;
+    public float speedIncreaseRate = 0.1f; // Speed gain per second
+    public float maxSpeed = 10f; // Cap to prevent it from going too fast
 
     private int currentLane = 1;
     private float verticalVelocity = 0f;
@@ -21,10 +23,14 @@ public class PlayerMovementRunner : MonoBehaviour
     {
         if (controller == null) return;
 
-        // Mouvement de base (avant)
+        // Increase forward speed over time
+        forwardSpeed += speedIncreaseRate * Time.deltaTime;
+        forwardSpeed = Mathf.Clamp(forwardSpeed, 0, maxSpeed);
+
+        // Base forward movement
         Vector3 move = Vector3.forward * forwardSpeed;
 
-        // Mouvement latéral
+        // Lateral lane switching
         if (Input.GetKeyDown(KeyCode.LeftArrow) && currentLane > 0)
             currentLane--;
         if (Input.GetKeyDown(KeyCode.RightArrow) && currentLane < 2)
@@ -33,12 +39,12 @@ public class PlayerMovementRunner : MonoBehaviour
         Vector3 targetPos = transform.position;
         targetPos.x = (currentLane - 1) * laneDistance;
         float xDiff = targetPos.x - transform.position.x;
-        move.x = xDiff * 10f; // Lerp-like sans Lerp
+        move.x = xDiff * 10f; // Quick interpolation without Lerp
 
-        // Saut
+        // Jumping
         if (controller.isGrounded)
         {
-            verticalVelocity = -1f; // coller au sol
+            verticalVelocity = -1f; // Stick to ground
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 verticalVelocity = jumpForce;
@@ -50,7 +56,6 @@ public class PlayerMovementRunner : MonoBehaviour
         }
         move.y = verticalVelocity;
 
-        // Appliquer mouvement complet
         controller.Move(move * Time.deltaTime);
     }
 }

@@ -4,12 +4,12 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Mouvement")]
+    [Header("Movement")]
     public float speed = 6.0f;
     public float jumpHeight = 1.5f;
     public float gravity = -9.81f;
 
-    [Header("Souris")]
+    [Header("Mouse")]
     public float mouseSensitivity = 2f;
     public Transform cameraRoot;
 
@@ -50,30 +50,29 @@ public class PlayerMovement : MonoBehaviour
 
     void HandleMovement()
     {
-        // Direction de mouvement locale (caméra)
+        // Local movement direction (relative to camera)
         Vector3 moveDirection = new Vector3(inputMovement.x, 0, inputMovement.y);
         moveDirection = Quaternion.Euler(0, cameraRoot.eulerAngles.y, 0) * moveDirection;
         moveDirection.Normalize();
 
-        // Rotation douce du joueur vers la direction du mouvement
+        // Smoothly rotate the player toward the movement direction
         if (moveDirection != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
         }
 
-        // Appliquer le mouvement horizontal
+        // Apply horizontal movement
         Vector3 horizontalMove = moveDirection * speed * Time.deltaTime;
         controller.Move(horizontalMove);
 
-        // Gravité
+        // Gravity
         if (controller.isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
-
 
     void Jump()
     {

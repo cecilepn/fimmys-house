@@ -11,7 +11,7 @@ public class PlatformManager : MonoBehaviour
     public GameObject collectiblePrefab;
     public int obstaclesPerPlatform = 2;
     public int collectiblesPerPlatform = 1;
-
+    public DecorGenerator decorGenerator;
 
     private float spawnZ = 0f;
     private float safeZone = 45f;
@@ -19,6 +19,7 @@ public class PlatformManager : MonoBehaviour
 
     void Start()
     {
+        // Spawn initial platforms
         for (int i = 0; i < numberOfPlatforms; i++)
         {
             SpawnPlatform();
@@ -27,6 +28,7 @@ public class PlatformManager : MonoBehaviour
 
     void Update()
     {
+        // Check if it's time to spawn a new platform
         if (player.position.z - safeZone > spawnZ - (numberOfPlatforms * platformLength))
         {
             SpawnPlatform();
@@ -40,19 +42,26 @@ public class PlatformManager : MonoBehaviour
         GameObject platform = Instantiate(platformPrefab, spawnPosition, Quaternion.identity);
         activePlatforms.Add(platform);
 
-        // Spawn obstacles
+        // Spawn obstacles on the platform
         for (int i = 0; i < obstaclesPerPlatform; i++)
         {
             SpawnObstacle(platform.transform, spawnPosition);
         }
 
-        // Spawn collectibles
+        // Spawn collectibles on the platform
         for (int i = 0; i < collectiblesPerPlatform; i++)
         {
             SpawnCollectible(platform.transform, spawnPosition);
         }
 
         spawnZ += platformLength;
+
+        // Generate decor at this Z position
+        if (decorGenerator != null)
+        {
+            float middleZ = spawnZ - (platformLength / 2f);
+            decorGenerator.GenerateDecorAtZ(middleZ);
+        }
     }
 
     void SpawnObstacle(Transform parent, Vector3 platformPos)
@@ -72,10 +81,9 @@ public class PlatformManager : MonoBehaviour
         Instantiate(collectiblePrefab, position, Quaternion.identity);
     }
 
-
-
     void DeletePlatform()
     {
+        // Remove the oldest platform
         Destroy(activePlatforms[0]);
         activePlatforms.RemoveAt(0);
     }
