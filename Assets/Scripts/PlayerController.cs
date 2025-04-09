@@ -46,14 +46,26 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        HandleLook();
         HandleMovement();
     }
 
     void HandleMovement()
     {
-        Vector3 move = transform.right * inputMovement.x + transform.forward * inputMovement.y;
-        controller.Move(move.normalized * speed * Time.deltaTime);
+        // Direction de mouvement locale (caméra)
+        Vector3 moveDirection = new Vector3(inputMovement.x, 0, inputMovement.y);
+        moveDirection = Quaternion.Euler(0, cameraRoot.eulerAngles.y, 0) * moveDirection;
+        moveDirection.Normalize();
+
+        // Rotation douce du joueur vers la direction du mouvement
+        if (moveDirection != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+        }
+
+        // Appliquer le mouvement horizontal
+        Vector3 horizontalMove = moveDirection * speed * Time.deltaTime;
+        controller.Move(horizontalMove);
 
         // Gravité
         if (controller.isGrounded && velocity.y < 0)
@@ -63,23 +75,12 @@ public class PlayerMovement : MonoBehaviour
         controller.Move(velocity * Time.deltaTime);
     }
 
+
     void Jump()
     {
         if (controller.isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
-    }
-
-    void HandleLook()
-    {
-        float mouseX = lookDelta.x * mouseSensitivity;
-        float mouseY = lookDelta.y * mouseSensitivity;
-
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-
-        cameraRoot.localRotation = Quaternion.Euler(xRotation, 0f, 0f); // haut/bas
-        transform.Rotate(Vector3.up * mouseX); // gauche/droite
     }
 }
