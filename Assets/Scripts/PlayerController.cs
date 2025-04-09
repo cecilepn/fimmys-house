@@ -20,10 +20,20 @@ public class PlayerMovement : MonoBehaviour
 
     private PlayerInputActions inputActions;
 
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+
     void Awake()
     {
         controller = GetComponent<CharacterController>();
         inputActions = new PlayerInputActions();
+    }
+
+    void Start()
+    {
+        // Store the initial position and rotation of the player
+        startPosition = transform.position;
+        startRotation = transform.rotation;
     }
 
     void OnEnable()
@@ -80,5 +90,15 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
+    }
+
+    // Reset the player to the starting position and rotation
+    public void ResetPlayer()
+    {
+        controller.enabled = false;
+        transform.position = startPosition;
+        transform.rotation = startRotation;
+        velocity = Vector3.zero;
+        controller.enabled = true;
     }
 }
