@@ -6166,7 +6166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &716516880
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6181,7 +6181,7 @@ RectTransform:
   m_Children:
   - {fileID: 316949359}
   - {fileID: 1024917851}
-  m_Father: {fileID: 1971025438}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6459,7 +6459,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a009ed90b5a1f4de9b59be476dc5bf47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionUI: {fileID: 1971025437}
+  interactionUI: {fileID: 716516879}
 --- !u!65 &737090119
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -16177,38 +16177,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.424264, y: 1.914616, z: 2.424264}
   m_Center: {x: 0, y: -0.042692006, z: 0}
---- !u!1 &1971025437
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1971025438}
-  m_Layer: 0
-  m_Name: Canva cabin
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1971025438
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1971025437}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.031210661, y: 4.766223, z: -13.422613}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 716516880}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1971321354
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19438,4 +19406,4 @@ SceneRoots:
   - {fileID: 1714666485}
   - {fileID: 2092232648}
   - {fileID: 646166049}
-  - {fileID: 1971025438}
+  - {fileID: 716516880}
