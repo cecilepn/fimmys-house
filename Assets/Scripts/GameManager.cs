@@ -6,12 +6,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public TextMeshProUGUI scoreText;
-
+    public TextMeshProUGUI livesText;
     private int score = 0;
     private int hitCount = 0;
     public int maxHits = 2;
 
     public GameObject gameOverUI;
+
 
     void Awake()
     {
@@ -22,19 +23,27 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         score += amount;
-        Debug.Log("Score: " + score);
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+        }
     }
+
 
     public void HitObstacle()
     {
         hitCount++;
-        Debug.Log("Obstacle hit! Count: " + hitCount);
-
+        int livesLeft = maxHits - hitCount;
+        if (livesText != null)
+        {
+            livesText.text = "Lives left: " + livesLeft;
+        }
         if (hitCount > maxHits)
         {
             GameOver();
         }
     }
+
 
     void GameOver()
     {
@@ -60,4 +69,14 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("SplashScreen");
     }
+
+    void Start()
+    {
+        if (scoreText != null)
+            scoreText.text = "Score: 0";
+
+        if (livesText != null)
+            livesText.text = "Lives left: " + maxHits;
+    }
+
 }

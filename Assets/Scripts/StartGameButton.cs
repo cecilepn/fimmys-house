@@ -3,10 +3,12 @@ using UnityEngine.SceneManagement;
 
 public class StartGameButton : MonoBehaviour
 {
-    public string sceneToLoad = "LandingGame";
-
     public void StartGame()
     {
-        SceneManager.LoadScene(sceneToLoad);
+        SceneManager.LoadScene("LandingGame");
+    }
+    public void SeeCredits()
+    {
+        SceneManager.LoadScene("Credits");
     }
 }
