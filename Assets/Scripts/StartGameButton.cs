@@ -11,4 +11,8 @@ public class StartGameButton : MonoBehaviour
     {
         SceneManager.LoadScene("Credits");
     }
+    public void StartRunGame()
+    {
+        SceneManager.LoadScene("EndlessRunner");
+    }
 }
